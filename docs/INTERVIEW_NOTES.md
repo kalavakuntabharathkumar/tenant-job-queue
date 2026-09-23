@@ -1,0 +1,11 @@
+# Interview notes
+- Multi-tenant means one service supports multiple organizations while isolating each tenant's data.
+- JWT is a signed token; the API validates signature/expiry and reads user, tenant, and role claims.
+- RBAC grants permissions by role. This sample lets admins delete jobs and read audit logs.
+- Celery executes long-running CSV work outside the API request. Redis is the task broker/backend.
+- Lifecycle: queued -> running -> completed/failed; clients poll job status.
+- Idempotency keys prevent duplicate submissions when clients retry; this sample scopes keys to tenant.
+- Tenant isolation depends on every data query filtering by the authenticated tenant, not a client-supplied tenant ID.
+- Audit logs record actor, action, resource and time; production audit storage should be append-only and comprehensive.
+- p95 latency is the value under which 95% of measured requests completed; it is not average latency.
+- The sample does not prove the 1.1M row, 94s -> 31s, or 380ms claims; benchmark independently.
